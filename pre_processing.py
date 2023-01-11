@@ -11,11 +11,14 @@ class ImagePreProcessing:
         self.image = image
         self.cleaned_image = None
 
+
     def squishing(self):
         return
 
+
     def cropping(self):
         return
+
 
     def resizing(self, resolution):
         # this path will change

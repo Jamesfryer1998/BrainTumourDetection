@@ -12,7 +12,7 @@ class ImagePreProcessing:
         self.cleaned_image = None
 
 
-    def squishing(self):
+    def distortion(self):
         return
 
 

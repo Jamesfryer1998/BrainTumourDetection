@@ -4,7 +4,7 @@ import os
 import cv2
 import time
 import numpy as np
-from PIL import Image, ImageEnhance
+from PIL import Image
 
 # TODO:
 # - Create model and test different resolutions

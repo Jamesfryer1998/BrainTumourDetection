@@ -7,8 +7,7 @@ import numpy as np
 from PIL import Image, ImageEnhance
 
 # TODO:
-# - Crop images in test set
-# - Rezise images in test set
+# - Create model and test different resolutions
 # - Play around with distortion of images
 
 class ImagePreProcessing:

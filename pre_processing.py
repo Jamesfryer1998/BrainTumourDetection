@@ -23,20 +23,18 @@ class ImagePreProcessing:
 
     def cropping(self):
         img_org = Image.open(self.image_path)
-        img = img_org.convert("L")
-        pixels = img.load()
 
-        for i in range(img.size[0]):
-            for j in range(img.size[1]):
-                if pixels[i,j] != (25):
-                    pixels[i,j] = (0)
-            
-        bbox = img.getbbox()
-        cropped_im = img_org.crop(bbox)
+        # Converting image to greyscale
+        pixels = np.array(img_org.convert('L'))
 
-        # Save the cropped image
-        self.cleaned_image = cropped_im
-        # cropped_im.save(self.image_path)
+        # Changing dark pixels to black
+        pixels[pixels < 50] = 0
+
+        # Cropping image with greyscale bbox
+        cropped_image = img_org.crop(Image.fromarray(pixels).getbbox())
+
+        # Assigning cropped image
+        self.cleaned_image = cropped_image
         
     def resizing(self):
         resized_img = self.cleaned_image.resize(self.resolution)

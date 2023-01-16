@@ -51,15 +51,15 @@ class ImagePreProcessing:
 
         return self.cleaned_image
 
-directories = ['Datasets_cleaned/test_dataset_processed/no', 'Datasets_cleaned/test_dataset_processed/yes']
+# directories = ['Datasets_cleaned/test_dataset_processed/no', 'Datasets_cleaned/test_dataset_processed/yes']
 
-t1 = datetime.datetime.now()
-for directory in directories:
-    for file in os.listdir(directory):
-        ImagePreProcessing(f'{directory}/{file}', (300,300)).pre_process_data()
+# t1 = datetime.datetime.now()
+# for directory in directories:
+#     for file in os.listdir(directory):
+#         ImagePreProcessing(f'{directory}/{file}', (300,300)).pre_process_data()
 
-t2 = datetime.datetime.now()
-print(t2-t1)
+# t2 = datetime.datetime.now()
+# print(t2-t1)
 
 # list_directories = [
 #     'Datasets_cleaned/brain_tumour_small/no',

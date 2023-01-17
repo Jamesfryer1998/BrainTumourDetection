@@ -2,26 +2,29 @@ print('Importing TensorFlow packages...')
 from pre_processing import ImagePreProcessing
 import os
 import json
-import keras 
+import time
 import datetime
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
 from tensorflow.keras.optimizers.legacy import Adam
+import tensorflow as tf
 from PIL import Image
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 plt.style.use('dark_background')
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
+
+# Changes Tensoflow initalisation print outs
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 print('Packages Successfully Imported.')
 
 
 class ResolutionTesting:
-    def __init__(self, res_dir, res):
+    def __init__(self, res_dir, res, run):
         self.res_dir = res_dir
         self.res = res
+        self.run = run
         self.X_train = None
         self.y_train = None
         self.X_test = None
@@ -91,22 +94,24 @@ class ResolutionTesting:
 
         model.compile(loss="categorical_crossentropy", optimizer=Adam(), metrics=['accuracy'])
         print(f'{self.res_dir} model compiling...')
-        history = model.fit(self.X_train, self.y_train, epochs=50, batch_size=40, verbose=0,validation_data=(self.X_test, self.y_test))
+        history = model.fit(self.X_train, self.y_train, epochs=50, batch_size=40, verbose=1,validation_data=(self.X_test, self.y_test))
         score = model.evaluate(self.X_test, self.y_test, verbose=0)
+        tf.keras.backend.clear_session()
         print(f'{self.res_dir} model compiled sucessfully.')
 
         # Save results
-        save_dict = {
+        save_dict = [{
             'resolution': self.res_dir,
+            'run': self.run,
             'test_loss': score[0],
             'test_accuracy': score[1],
             'training_loss': history.history['loss'],
             'val_loss': history.history['val_loss']
-        }
+        }]
 
         # If file not exists, create new file
         if os.path.exists("res_testing.json") == False:
-            with open("testing.json", "w") as outfile:
+            with open("res_testing.json", "w") as outfile:
                 json.dump(save_dict, outfile, indent=3)
                 # print('New file created.')
         else:
@@ -126,20 +131,21 @@ class ResolutionTesting:
         self.proccess_data()
         self.compile_model()
 
-def test_resolutions():
+def test_resolutions(run):
     print('Resolution testing starting...')
     resolution_dict = {
         '32': (32, 32, 3),
         '64': (64, 64, 3),
         '128': (128, 128, 3),
         '240': (240, 240, 3),
-        '320': (320,320, 3),
-        # '600': (600, 600, 3)
+        '320': (320, 320, 3),
+        '400': (400, 400, 3)
     }
 
     for res_dir, res in resolution_dict.items():
         t1 = datetime.datetime.now()
-        ResolutionTesting(res_dir, res).run_all()
+        ResolutionTesting(res_dir, res, run).run_all()
         # ResolutionTesting(res_dir, res)
         t2 = datetime.datetime.now()
         print(f'{res_dir} tested in {t2-t1}')
+        time.sleep(3)

@@ -11,7 +11,7 @@ def preprocess_resolutions():
         '128': (128, 128),
         '240': (240, 240),
         '320': (320,320),
-        '600': (600, 600)
+        '400': (400, 400)
     }
 
     base_directory = 'Datasets_cleaned/brain_tumour_small'

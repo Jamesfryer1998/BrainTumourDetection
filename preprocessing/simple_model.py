@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 plt.style.use('dark_background')
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 
 # Changes Tensoflow initalisation print outs
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
@@ -63,12 +64,11 @@ class ResolutionTesting:
         results = np.array(result)
         results = results.reshape(data.shape[0], 2)
 
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(data, results, test_size=0.3, shuffle=True, random_state=0)
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(data, results, test_size=0.3, shuffle=True, random_state=42)
 
         # return X_train, X_test, y_train, y_test
 
     def compile_model(self):
-        # X_train, X_test, y_train, y_test = self.proccess_data()
         model = Sequential()
 
         # res need to be in form of (x, y, z) e.g (128, 128, 3)
@@ -94,8 +94,12 @@ class ResolutionTesting:
 
         model.compile(loss="categorical_crossentropy", optimizer=Adam(), metrics=['accuracy'])
         print(f'{self.res_dir} model compiling...')
-        history = model.fit(self.X_train, self.y_train, epochs=50, batch_size=40, verbose=1,validation_data=(self.X_test, self.y_test))
+        history = model.fit(self.X_train, self.y_train, epochs=50, batch_size=40, verbose=0,validation_data=(self.X_test, self.y_test))
         score = model.evaluate(self.X_test, self.y_test, verbose=0)
+        pred = model.predict(self.X_test)
+        y_pred = np.argmax(pred, axis=1)
+        y_test_int = np.argmax(self.y_test, axis=1)
+        confusion = confusion_matrix(y_test_int, y_pred)
         tf.keras.backend.clear_session()
         print(f'{self.res_dir} model compiled sucessfully.')
 
@@ -106,14 +110,18 @@ class ResolutionTesting:
             'test_loss': score[0],
             'test_accuracy': score[1],
             'training_loss': history.history['loss'],
-            'val_loss': history.history['val_loss']
+            'val_loss': history.history['val_loss'],
+            'true_neg': int(confusion[0][0]),
+            'false_neg': int(confusion[1][0]),
+            'true_pos': int(confusion[1][1]),
+            'false_pos': int(confusion[0][1])
         }]
 
         # If file not exists, create new file
         if os.path.exists("res_testing.json") == False:
             with open("res_testing.json", "w") as outfile:
                 json.dump(save_dict, outfile, indent=3)
-                # print('New file created.')
+                print('     New file created.')
         else:
             # Open json file, append new contents
             with open("res_testing.json", "r") as infile:
@@ -139,13 +147,12 @@ def test_resolutions(run):
         '128': (128, 128, 3),
         '240': (240, 240, 3),
         '320': (320, 320, 3),
-        '400': (400, 400, 3)
+        # '400': (400, 400, 3)
     }
 
     for res_dir, res in resolution_dict.items():
         t1 = datetime.datetime.now()
         ResolutionTesting(res_dir, res, run).run_all()
-        # ResolutionTesting(res_dir, res)
         t2 = datetime.datetime.now()
         print(f'{res_dir} tested in {t2-t1}')
         time.sleep(3)

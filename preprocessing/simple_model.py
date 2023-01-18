@@ -118,18 +118,18 @@ class ResolutionTesting:
         }]
 
         # If file not exists, create new file
-        if os.path.exists("res_testing.json") == False:
-            with open("res_testing.json", "w") as outfile:
+        if os.path.exists("preprocessing/res_testing/res_test.json") == False:
+            with open("preprocessing/res_testing/res_test.json", "w") as outfile:
                 json.dump(save_dict, outfile, indent=3)
                 print('     New file created.')
         else:
             # Open json file, append new contents
-            with open("res_testing.json", "r") as infile:
+            with open("preprocessing/res_testing/res_test.json", "r") as infile:
                 data = json.load(infile)
                 data.extend(save_dict)
                 
             # Save extended results
-            with open("res_testing.json", "w") as outfile:
+            with open("preprocessing/res_testing/res_test.json", "w") as outfile:
                 json.dump(data, outfile, indent=3)
                 print(f'    Resolution data updated.')
 

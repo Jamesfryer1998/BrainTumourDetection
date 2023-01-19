@@ -146,7 +146,6 @@ def test_resolutions(run):
         '128': (128, 128, 3),
         '240': (240, 240, 3),
         '320': (320, 320, 3),
-        # '400': (400, 400, 3)
     }
 
     for res_dir, res in resolution_dict.items():

@@ -4,14 +4,13 @@ from pre_processing import ImagePreProcessing
 
 t1 = datetime.datetime.now()
 
-def preprocess_resolutions():
+def preprocess_resolutions_testing():
     resolution_dict = {
         '32': (32, 32),
         '64': (64, 64),
         '128': (128, 128),
         '240': (240, 240),
         '320': (320,320),
-        '400': (400, 400)
     }
 
     base_directory = 'Datasets_cleaned/brain_tumour_small'
@@ -34,7 +33,6 @@ def preprocess_resolutions():
     t2 = datetime.datetime.now()
     print(t2-t1)
 
-# preprocess_resolutions(resolution_dict)
 
 # TODO:
 # - Ready to run, will process no/yes images in brain_tumour_small dataset

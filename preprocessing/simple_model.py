@@ -32,8 +32,8 @@ class ResolutionTesting:
         self.y_test = None
 
     def proccess_data(self):
-        no_path = f'/Users/james/MScCode/Final Project/Datasets_cleaned/Resolutions/{self.res_dir}/no'
-        yes_path = f'/Users/james/MScCode/Final Project/Datasets_cleaned/Resolutions/{self.res_dir}/yes'
+        no_path = f'/Users/james/MScCode/Final Project/Datasets_cleaned/Resolutions_testing/{self.res_dir}/no'
+        yes_path = f'/Users/james/MScCode/Final Project/Datasets_cleaned/Resolutions_testing/{self.res_dir}/yes'
 
         if len(os.listdir(no_path)) == 0 and len(os.listdir(yes_path)) == 0:
             raise Exception('No files present. Please pre-process data.')
@@ -45,7 +45,6 @@ class ResolutionTesting:
 
         # No tumour
         for file in os.listdir(no_path):
-
             img = Image.open(f'{no_path}/{file}')
             img = np.array(img)
             if img.shape == self.res:

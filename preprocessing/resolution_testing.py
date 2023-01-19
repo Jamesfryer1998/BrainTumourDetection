@@ -22,7 +22,7 @@ def preprocess_resolutions():
         for res_dir, res in resolution_dict.items():
             for file in os.listdir(f'{base_directory}/{type}'):
                 try:
-                    ImagePreProcessing(f'{base_directory}/{type}/{file}', res, f'Datasets_cleaned/Resolutions/{res_dir}/{type}/{file}').pre_process_data()
+                    ImagePreProcessing(f'{base_directory}/{type}/{file}', res, f'Datasets_cleaned/Resolutions_testing/{res_dir}/{type}/{file}').pre_process_data()
                 except OSError as error:
                     # print(file)
                     bad_image_count += 1

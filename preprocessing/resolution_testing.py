@@ -23,7 +23,6 @@ def preprocess_resolutions_testing():
                 try:
                     ImagePreProcessing(f'{base_directory}/{type}/{file}', res, f'Datasets_cleaned/Resolutions_testing/{res_dir}/{type}/{file}').pre_process_data()
                 except OSError as error:
-                    # print(file)
                     bad_image_count += 1
 
             print(f'{res_dir} - {type} tumour - Processed.')

@@ -6,8 +6,7 @@ from PIL import Image
 import re
 
 # TODO:
-# - Create model and test different resolutions
-# - Play around with distortion of images
+
 
 class ImagePreProcessing:
     def __init__(self, image_path, resolution, save_path=None):
@@ -50,33 +49,3 @@ class ImagePreProcessing:
         self.resizing()
 
         return self.cleaned_image
-
-# directories = ['Datasets_cleaned/test_dataset_processed/no', 'Datasets_cleaned/test_dataset_processed/yes']
-
-# t1 = datetime.datetime.now()
-# for directory in directories:
-#     for file in os.listdir(directory):
-#         ImagePreProcessing(f'{directory}/{file}', (300,300)).pre_process_data()
-
-# t2 = datetime.datetime.now()
-# print(t2-t1)
-
-# list_directories = [
-#     'Datasets_cleaned/brain_tumour_small/no',
-#     'Datasets_cleaned/brain_tumour_small/yes',
-#     'Datasets_cleaned/brain_tumour_large/Testing/glioma',
-#     'Datasets_cleaned/brain_tumour_large/Testing/meningioma',
-#     'Datasets_cleaned/brain_tumour_large/Testing/notumor',
-#     'Datasets_cleaned/brain_tumour_large/Testing/pituitary',
-#     'Datasets_cleaned/brain_tumour_large/Training/glioma',
-#     'Datasets_cleaned/brain_tumour_large/Training/meningioma',
-#     'Datasets_cleaned/brain_tumour_large/Training/notumor',
-#     'Datasets_cleaned/brain_tumour_large/Training/pituitary',
-# ]
-
-# count = 0
-
-# for directory in list_directories:
-#     count += len(os.listdir(directory))
-
-# print(count)

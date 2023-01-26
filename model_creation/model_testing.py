@@ -192,9 +192,7 @@ class MultiClassModelCreation:
             'loss_values':history_dict['loss'],
             'val_loss':history_dict['val_loss']
         }]
-    
-        # result_dict =[{'hello':'shalom'}]
-        
+            
         # Saving results
         if save_results == True:
             # If file not exists, create new file
@@ -212,6 +210,3 @@ class MultiClassModelCreation:
                 with open("model_creation/model_structure_testing.json", "w") as outfile:
                     json.dump(data, outfile, indent=3)
                     print('updated file')
-    
-
-# MultiClassModelCreation('1').build_model(1,1,1)

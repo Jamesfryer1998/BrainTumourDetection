@@ -57,7 +57,6 @@ class MultiClassModelCreation:
                 X_train.append(img)
                 y_train.append(label)
                     
-
         # Testing set
         for label in labels:
             folder_dir = f'{test_folder}{label}'

@@ -102,6 +102,7 @@ class MultiClassModelCreation:
 
    
     def build_model(self, num_conv_layers, num_dense_layers, save_results=True):
+        tf.keras.backend.clear_session()
         t1 = datetime.datetime.now()
         print(f'Starting Conv: {num_conv_layers} - Dense: {num_dense_layers}')
         model = Sequential()

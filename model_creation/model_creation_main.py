@@ -13,10 +13,10 @@ model_creation = MultiClassModelCreation(root_path)
 # # Processing data
 model_creation.process_data()
 
-for conv in conv_layers:
-    for dense in dense_layers:
-        model_creation.build_model(conv, dense)
-        email(conv=conv, dense=dense)
+# for conv in conv_layers:
+#     for dense in dense_layers:
+model_creation.build_model(4, 3)
+        # email(conv=conv, dense=dense)
         
 
 

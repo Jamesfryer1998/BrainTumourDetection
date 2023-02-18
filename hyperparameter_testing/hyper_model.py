@@ -10,10 +10,11 @@ from keras.layers import (BatchNormalization, Conv2D, Dense, Dropout, Flatten,
 from keras.models import Sequential
 
 from sklearn.metrics import (accuracy_score, classification_report,
-                             confusion_matrix)
+                             confusion_matrix, roc_auc_score)
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.utils import shuffle
+
 from tensorflow.keras import layers
 from tensorflow.keras.optimizers.legacy import Adam
 
@@ -43,7 +44,7 @@ class MultiClassModelCreation:
         X_test=[]
         y_train=[]
         y_test=[] 
-        
+
         # Training set
         for label in labels:
             folder_dir = f'{train_folder}{label}'
@@ -106,12 +107,15 @@ class MultiClassModelCreation:
         model.add(layers.Conv2D(conv_1_2_units, (3, 3), input_shape=(240, 240, 3), activation="relu"))
         model.add(layers.MaxPooling2D(pool_size=(2, 2)))
         
+        model.add(BatchNormalization()) 
         model.add(layers.Conv2D(conv_1_2_units, (3, 3), activation="relu"))
         model.add(layers.MaxPooling2D(pool_size=(2, 2)))
         
+        model.add(BatchNormalization()) 
         model.add(layers.Conv2D(conv_3_4_units, (3, 3), activation="relu"))
         model.add(layers.MaxPooling2D(pool_size=(2, 2)))
         
+        model.add(BatchNormalization()) 
         model.add(layers.Conv2D(conv_3_4_units, (3, 3), activation="relu"))
         model.add(layers.MaxPooling2D(pool_size=(2, 2)))
         
@@ -120,9 +124,9 @@ class MultiClassModelCreation:
 
         # Dense layers and Dropout
         model.add(layers.Dense(dense_units, activation="relu"))
-        model.add(layers.Dropout(0.2))
+        model.add(layers.Dropout(0.7))
         model.add(layers.Dense(dense_units, activation="relu"))
-        model.add(layers.Dropout(0.2))
+        model.add(layers.Dropout(0.7))
         model.add(layers.Dense(4, activation="softmax"))  
 
         # Compiling, fitting and evaluating model
@@ -135,9 +139,45 @@ class MultiClassModelCreation:
         history_dict = model_history.history
         score = model.evaluate(self.X_test, self.y_test, verbose=0)
         t2 = datetime.datetime.now()
+
+        # CLassification
+        y_pred = model.predict(self.X_test)
+        # y_scores = np.argmax(y_pred,axis=1)
+        cm = confusion_matrix(y_pred.argmax(axis=1), self.y_test.argmax(axis=1))
+
+        accuracy = accuracy_score(y_pred.argmax(axis=1), self.y_test.argmax(axis=1))
+        auc = roc_auc_score(self.y_test, y_pred)
+        print(classification_report(y_pred.argmax(axis=1), self.y_test.argmax(axis=1)))
+        print(accuracy)
+        print(auc)
         
         print('Completed run')
         print(f'TTR: {t2-t1}')
+
+        from sklearn.metrics import roc_curve, auc
+        import matplotlib.pyplot as plt
+
+        # Plotting ROC Curves per class
+        # y_true contains the true class labels, y_score contains the predicted probabilities or scores
+        fpr = dict()
+        tpr = dict()
+        roc_auc = dict()
+        for i in range(4):
+            fpr[i], tpr[i], _ = roc_curve(self.y_test[:, i], y_pred[:, i])
+            roc_auc[i] = auc(fpr[i], tpr[i])
+
+        # Plot the ROC curves for each class
+        plt.figure()
+        for i in range(4):
+            plt.plot(fpr[i], tpr[i], label='ROC curve (area = %0.2f) for class %d' % (roc_auc[i], i))
+        plt.plot([0, 1], [0, 1], 'k--')
+        plt.xlim([0.0, 1.0])
+        plt.ylim([0.0, 1.05])
+        plt.xlabel('False Positive Rate')
+        plt.ylabel('True Positive Rate')
+        plt.title('Receiver operating characteristic for multi-class')
+        plt.legend(loc="lower right")
+        plt.show()
         
         result_dict = [{
             'time': str(t2-t1),
@@ -156,17 +196,21 @@ class MultiClassModelCreation:
         # Saving results
         if save_results == True:
             # If file not exists, create new file
-            if os.path.exists("hyperparameter_testing/hyperparamater_results.json") == False:
-                with open("hyperparameter_testing/hyperparamater_results.json", "w") as outfile:
+            if os.path.exists("hyperparameter_testing/final_model_testing.json") == False:
+                with open("hyperparameter_testing/final_model_testing.json", "w") as outfile:
                     json.dump(result_dict, outfile, indent=3)
                     print('new file made')
             else:
                 # Open json file, append new contents
-                with open("hyperparameter_testing/hyperparamater_results.json", "r") as infile:
+                with open("hyperparameter_testing/final_model_testing.json", "r") as infile:
                     data = json.load(infile)
                     data.extend(result_dict)
                     
                 # Save extended results
-                with open("hyperparameter_testing/hyperparamater_results.json", "w") as outfile:
+                with open("hyperparameter_testing/final_model_testing.json", "w") as outfile:
                     json.dump(data, outfile, indent=3)
                     print('updated file')
+
+# TODO:
+# - Add predicted vs test values in order to make a confusion matrix (use sklearn)
+# - Calculate accuracy, precision, specificity, Sensitivity, F1 score, Log Loss, ROC curve, AUC curve

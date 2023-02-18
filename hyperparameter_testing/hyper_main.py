@@ -31,14 +31,16 @@ def configure_combinations():
 # Only use this for the first run
 # configure_combinations()
 
-with open("hyperparameter_testing/combinations.json", "r") as infile:
-    data = json.load(infile)
+# with open("hyperparameter_testing/combinations.json", "r") as infile:
+#     data = json.load(infile)
 
-for combination in data:
-    model_creation.build_model(combination[0], combination[1], combination[2], combination[3])
-    try:
-        email(type='hyper_testing', combination=combination)
-    except:
-        continue
+# for combination in data:
+#     model_creation.build_model(combination[0], combination[1], combination[2], combination[3])
+#     try:
+#         email(type='hyper_testing', combination=combination)
+#     except:
+#         continue
     
-    print(f'Combination complete: {combination}')
+#     print(f'Combination complete: {combination}')
+
+model_creation.build_model(32, 64, 512, 25, save_results=False)

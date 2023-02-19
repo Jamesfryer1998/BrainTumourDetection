@@ -1,7 +1,7 @@
 import yagmail
 import datetime
 
-def email(type, run=None, conv=None, dense=None, combination=None):
+def email(type, run=None, conv=None, dense=None, combination=None, rmse=None, params=None, run_time=None):
     user = yagmail.SMTP(user='pythonemail1998@gmail.com', password='advdmdyqrynizeri')
     time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     if type == 'run':
@@ -17,6 +17,11 @@ def email(type, run=None, conv=None, dense=None, combination=None):
          user.send(to=(('pythonemail1998@gmail.com', 'chanatlive@outlook.com'))
                 ,subject =f'Hyperamater combination {combination}',
                 contents=f'Hyperparamater test completed at {time}')
+
+    elif type == 'random_search':
+        user.send(to=(('pythonemail1998@gmail.com'))
+                ,subject =f'Random Search Completed on run: {run}',
+                contents=f'Rmse: {rmse}   Params" {params}    Total run time{run_time}')
 
 
 

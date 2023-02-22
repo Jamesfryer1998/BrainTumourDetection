@@ -21,7 +21,7 @@ def email(type, run=None, conv=None, dense=None, combination=None, rmse=None, pa
     elif type == 'random_search':
         user.send(to=(('pythonemail1998@gmail.com'))
                 ,subject =f'Random Search Completed on run: {run}',
-                contents=f'Rmse: {rmse}   Params" {params}    Total run time{run_time}')
+                contents=f'Rmse: {rmse}   Params" {params}    Total run time: {run_time}')
 
 
 

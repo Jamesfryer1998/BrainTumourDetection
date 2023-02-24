@@ -3,9 +3,6 @@ import pandas as pd
 import os 
 import numpy as np
 from PIL import Image
-import re
-
-# TODO:
 
 
 class ImagePreProcessing:
@@ -14,11 +11,6 @@ class ImagePreProcessing:
         self.save_path = save_path
         self.resolution = resolution
         self.cleaned_image = None
-
-    def distortion(self, on_off='on'):
-        # Rabbit hole
-
-        return 
 
     def cropping(self):
         img_org = Image.open(self.image_path)

@@ -14,6 +14,8 @@ from sklearn.metrics import (accuracy_score, classification_report,
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.utils import shuffle
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 from tensorflow.keras import layers
 from tensorflow.keras.optimizers.legacy import Adam
@@ -97,7 +99,7 @@ class MultiClassModelCreation:
         # return self.X_train, self.y_train, self.X_test, self.y_test, self.X_val, self.y_val
 
    
-    def build_model(self, conv_1_2_units, conv_3_4_units, dense_units, epoch, save_results=True):
+    def build_model(self, conv_1_2_units, conv_3_4_units, dense_units, epoch, save_results=True, evaluation_vis=False):
         tf.keras.backend.clear_session()
         t1 = datetime.datetime.now()
         print(f'Starting run')
@@ -150,34 +152,39 @@ class MultiClassModelCreation:
         print(classification_report(y_pred.argmax(axis=1), self.y_test.argmax(axis=1)))
         print(accuracy)
         print(auc)
-        
-        print('Completed run')
-        print(f'TTR: {t2-t1}')
 
-        from sklearn.metrics import roc_curve, auc
-        import matplotlib.pyplot as plt
+        if evaluation_vis == True:
+            plt.figure(figsize = (10,7))
+            ax = sns.heatmap(cm, annot=True)
+            ax.set(xlabel="Class", ylabel="Class")
+            
+            print('Completed run')
+            print(f'TTR: {t2-t1}')
 
-        # Plotting ROC Curves per class
-        # y_true contains the true class labels, y_score contains the predicted probabilities or scores
-        fpr = dict()
-        tpr = dict()
-        roc_auc = dict()
-        for i in range(4):
-            fpr[i], tpr[i], _ = roc_curve(self.y_test[:, i], y_pred[:, i])
-            roc_auc[i] = auc(fpr[i], tpr[i])
+            from sklearn.metrics import roc_curve, auc
+            # import matplotlib.pyplot as plt
 
-        # Plot the ROC curves for each class
-        plt.figure()
-        for i in range(4):
-            plt.plot(fpr[i], tpr[i], label='ROC curve (area = %0.2f) for class %d' % (roc_auc[i], i))
-        plt.plot([0, 1], [0, 1], 'k--')
-        plt.xlim([0.0, 1.0])
-        plt.ylim([0.0, 1.05])
-        plt.xlabel('False Positive Rate')
-        plt.ylabel('True Positive Rate')
-        plt.title('Receiver operating characteristic for multi-class')
-        plt.legend(loc="lower right")
-        plt.show()
+            # Plotting ROC Curves per class
+            # y_true contains the true class labels, y_score contains the predicted probabilities or scores
+            fpr = dict()
+            tpr = dict()
+            roc_auc = dict()
+            for i in range(4):
+                fpr[i], tpr[i], _ = roc_curve(self.y_test[:, i], y_pred[:, i])
+                roc_auc[i] = auc(fpr[i], tpr[i])
+
+            # Plot the ROC curves for each class
+            plt.figure()
+            for i in range(4):
+                plt.plot(fpr[i], tpr[i], label='ROC curve (area = %0.2f) for class %d' % (roc_auc[i], i))
+            plt.plot([0, 1], [0, 1], 'k--')
+            plt.xlim([0.0, 1.0])
+            plt.ylim([0.0, 1.05])
+            plt.xlabel('False Positive Rate')
+            plt.ylabel('True Positive Rate')
+            plt.title('Receiver operating characteristic for multi-class')
+            plt.legend(loc="lower right")
+            plt.show()
         
         result_dict = [{
             'time': str(t2-t1),

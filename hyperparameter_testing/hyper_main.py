@@ -8,7 +8,7 @@ root_path = '/Users/james/MScCode/Final Project/Datasets_cleaned/240_resolution/
 
 # Initialising model
 model_creation = MultiClassModelCreation(root_path)
-# # Processing data
+# Processing data
 model_creation.process_data()
 
 def configure_combinations():
@@ -28,19 +28,23 @@ def configure_combinations():
     with open("hyperparameter_testing/combinations.json", "w") as outfile:
         json.dump(combinations, outfile, indent=1)
 
+def param_testing():
+    with open("hyperparameter_testing/combinations.json", "r") as infile:
+        data = json.load(infile)
+
+    for combination in data:
+        model_creation.build_model(combination[0], combination[1], combination[2], combination[3])
+        try:
+            email(type='hyper_testing', combination=combination)
+        except:
+            continue
+        
+        print(f'Combination complete: {combination}')
+
 # Only use this for the first run
 # configure_combinations()
 
-# with open("hyperparameter_testing/combinations.json", "r") as infile:
-#     data = json.load(infile)
 
-# for combination in data:
-#     model_creation.build_model(combination[0], combination[1], combination[2], combination[3])
-#     try:
-#         email(type='hyper_testing', combination=combination)
-#     except:
-#         continue
-    
-#     print(f'Combination complete: {combination}')
+# param_testing()
 
 model_creation.build_model(32, 64, 512, 25, save_results=False)

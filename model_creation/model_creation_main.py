@@ -5,7 +5,7 @@ sys.path.append('/Users/james/MScCode/Final Project/')
 from preprocessing.emailer import email
 
 root_path = '/Users/james/MScCode/Final Project/Datasets_cleaned/240_resolution/brain_tumour_large'
-conv_layers = [2,3,4]
+conv_layers = [1,2,3,4]
 dense_layers = [1,2,3,4]
 
 # Initialising model

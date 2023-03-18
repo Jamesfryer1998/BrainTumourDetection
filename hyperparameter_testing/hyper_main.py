@@ -13,7 +13,7 @@ model_creation.process_data()
 
 def configure_combinations():
     conv_1_2_units = [32, 64, 128, 256]
-    conv_3_4_units = [32, 64, 128, 256]
+    conv_3_4_units = [32, 64, 128, 256] 
     dense_units = [64, 128, 256, 512]
     epochs = [10, 15, 25, 50]
 
@@ -43,8 +43,6 @@ def param_testing():
 
 # Only use this for the first run
 # configure_combinations()
-
-
 # param_testing()
 
-model_creation.build_model(32, 64, 512, 25, save_results=False)
+model_creation.build_model(32, 64, 512, 25, save_results=False, visualise_predictions=True)

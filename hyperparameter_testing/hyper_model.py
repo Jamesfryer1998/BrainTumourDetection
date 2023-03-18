@@ -3,8 +3,11 @@ import json
 import os
 
 import cv2
+import random
+from PIL import Image
 import numpy as np
 import tensorflow as tf
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from keras.layers import (BatchNormalization, Conv2D, Dense, Dropout, Flatten,
                           MaxPooling2D)
 from keras.models import Sequential
@@ -16,6 +19,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.utils import shuffle
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 from tensorflow.keras import layers
 from tensorflow.keras.optimizers.legacy import Adam
@@ -26,8 +30,10 @@ class MultiClassModelCreation:
         self.root_path = root_path
 
     def process_data(self):
+        self.index_to_labels = {0: 'glioma', 1: 'meningioma', 2: 'notumor', 3: 'pituitary'}
         t1 = datetime.datetime.now()
         labels = []
+        self.test_paths = []
         train_folder = self.root_path+'/Training/'
         test_folder = self.root_path+'/Testing/'
 
@@ -63,6 +69,7 @@ class MultiClassModelCreation:
                 img = cv2.imread(f'{folder_dir}/{file}')
                 X_test.append(img)
                 y_test.append(label)
+                self.test_paths.append(f'{folder_dir}/{file}')
                 
         X_train = np.array(X_train)
         X_test = np.array(X_test)
@@ -76,6 +83,7 @@ class MultiClassModelCreation:
         # Shuffling
         X_train_full, y_train_full = shuffle(X_train, y_train, random_state=42)
         self.X_test, y_test = shuffle(X_test, y_test, random_state=42)
+        # random.shuffle(self.test_paths)
         
         # One-hot encoding y labels
         y_train_full = tf.keras.utils.to_categorical([labels.index(i) for i in y_train_full])
@@ -99,7 +107,7 @@ class MultiClassModelCreation:
         # return self.X_train, self.y_train, self.X_test, self.y_test, self.X_val, self.y_val
 
    
-    def build_model(self, conv_1_2_units, conv_3_4_units, dense_units, epoch, save_results=True, evaluation_vis=False):
+    def build_model(self, conv_1_2_units, conv_3_4_units, dense_units, epoch, save_results=True, evaluation_vis=False, visualise_predictions=False):
         tf.keras.backend.clear_session()
         t1 = datetime.datetime.now()
         print(f'Starting run')
@@ -142,7 +150,7 @@ class MultiClassModelCreation:
         score = model.evaluate(self.X_test, self.y_test, verbose=0)
         t2 = datetime.datetime.now()
 
-        # CLassification
+        # Classification
         y_pred = model.predict(self.X_test)
         # y_scores = np.argmax(y_pred,axis=1)
         cm = confusion_matrix(y_pred.argmax(axis=1), self.y_test.argmax(axis=1))
@@ -185,6 +193,50 @@ class MultiClassModelCreation:
             plt.title('Receiver operating characteristic for multi-class')
             plt.legend(loc="lower right")
             plt.show()
+
+        if visualise_predictions:
+            # Create a 4x4 subplot
+            fig, axes = plt.subplots(4, 4, figsize=(10, 10))
+            axes = axes.ravel()
+            index_to_labels = {0: 'glioma', 1: 'meningioma', 2: 'notumor', 3: 'pituitary'}
+
+            # Loop through the images and their predictions
+            for i in range(len(self.X_test)):
+                # Get the actual and predicted values
+                actual = np.argmax(self.y_test[i])
+                pred = np.argmax(y_pred[i])
+                color = 'green' if actual == pred else 'red'
+
+                # Display the image and its actual/predicted class
+                axes[i].imshow(self.X_test[i])
+                axes[i].set_title(f"Actual: {index_to_labels[actual]}\nPredicted: {index_to_labels[pred]}", color=color, fontsize=10)
+                axes[i].axis('off')
+
+                # Stop the loop if all subplots are displayed
+                if i == 15:
+                    break
+                
+            plt.tight_layout()
+            plt.show()
+            # path_to_label={}
+            # for i,path in enumerate(self.test_paths):
+            #     label = path.split(os.path.sep)[-2]
+            #     path_to_label[path]=label
+            # fig = plt.figure(figsize=(18, 18))
+            # columns = 4
+            # rows = 4
+
+            # for i in range(1, columns*rows +1):
+            #     img = self.X_test[i]
+            #     pred=model.predict(img)
+            #     index=np.argmax(pred)
+            #     klass=self.index_to_labels[index]
+            #     actual=path_to_label[self.test_paths[i]]
+            #     img=np.reshape(img,(240,240,3))
+            #     fig.add_subplot(rows, columns, i)
+            #     plt.imshow(img)
+            #     plt.title(f'predicted: { klass} Actual :{actual}')
+            # plt.show()
         
         result_dict = [{
             'time': str(t2-t1),
@@ -219,5 +271,4 @@ class MultiClassModelCreation:
                     print('updated file')
 
 # TODO:
-# - Add predicted vs test values in order to make a confusion matrix (use sklearn)
-# - Calculate accuracy, precision, specificity, Sensitivity, F1 score, Log Loss, ROC curve, AUC curve
+# Visualise 

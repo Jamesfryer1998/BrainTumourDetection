@@ -14,7 +14,7 @@ To run the final model, navigate to the final_model folder and run the following
 cd final_model <br>
 python final_model_run.py
 
-This will train the CNN on the larger dataset and save the results in the results folder.
+This will train the CNN on the larger and small dataset wiht the optimial hyperparameters and display the results.
 
 # Datasets
 The datasets used in this project are not included in this repository due to their large size. However, they can be downloaded from the following sources:

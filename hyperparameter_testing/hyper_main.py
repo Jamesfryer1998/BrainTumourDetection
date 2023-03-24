@@ -3,11 +3,13 @@ import json
 from hyper_model import MultiClassModelCreation
 sys.path.append('/Users/james/MScCode/Final Project/')
 from preprocessing.emailer import email
+from results_evaluation import evaluate_hyperparameter_optimisation
 
 root_path = '/Users/james/MScCode/Final Project/Datasets_cleaned/240_resolution/brain_tumour_large'
 
 # Initialising model
 model_creation = MultiClassModelCreation(root_path)
+
 # Processing data
 model_creation.process_data()
 
@@ -28,7 +30,7 @@ def configure_combinations():
     with open("hyperparameter_testing/combinations.json", "w") as outfile:
         json.dump(combinations, outfile, indent=1)
 
-def param_testing():
+def hyperparameter_optimisation():
     with open("hyperparameter_testing/combinations.json", "r") as infile:
         data = json.load(infile)
 
@@ -41,8 +43,13 @@ def param_testing():
         
         print(f'Combination complete: {combination}')
 
-# Only use this for the first run
+# Only use this for the first run to configure all combinations
 # configure_combinations()
-# param_testing()
 
-model_creation.build_model(32, 64, 512, 25, save_results=False, visualise_predictions=True)
+# Run this to conduct hyperparameter optimisation
+# hyperparameter_optimisation()
+
+conv_1_2, con_3_4, dense, epoch = evaluate_hyperparameter_optimisation(print_results=True)
+
+# This model is based off the optimial parameters found from the results_evaluation of the hyperparameter optimisation
+model_creation.build_model(conv_1_2, con_3_4, dense, epoch, save_results=False)

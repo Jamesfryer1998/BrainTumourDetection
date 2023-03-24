@@ -4,18 +4,17 @@ This repository contains code for detecting brain tumours in MRI scans using con
 # Requirements
 To run the code in this repository, you will need to set up a Python environment with the necessary packages installed. You can create a virtual environment and install the packages listed in requirements.txt using the following commands:
 
-bash
-Copy code
-python -m venv env
-source env/bin/activate
-pip install -r requirements.txt
+
+python -m venv env <br>
+source env/bin/activate <br>
+pip install -r requirements.txt <br>
 
 # Usage
 To run the final model, navigate to the final_model folder and run the following command:
 
-bash
-Copy code
-python run_model.py
+cd final_model <br>
+python final_model_run.py
+
 This will train the CNN on the larger dataset and save the results in the results folder.
 
 # Datasets

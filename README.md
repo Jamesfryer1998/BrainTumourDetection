@@ -1,9 +1,8 @@
 # Brain Tumour Detection using Convolutional Neural Networks
-This repository contains code for detecting brain tumours in MRI scans using convolutional neural networks (CNNs). The code can be used with two different datasets: a larger dataset containing MRI scans of brain tumours at 240 resolution, and a smaller dataset containing MRI scans of brain tumours at 144 resolution.
+This repository contains code for detecting brain tumours in MRI scans using convolutional neural networks (CNNs). The code can be used with two different datasets: a larger dataset containing MRI scans of brain tumours, and a smaller dataset containing MRI scans of brain tumours, both datasets are at 240x240 resolution.
 
 # Requirements
 To run the code in this repository, you will need to set up a Python environment with the necessary packages installed. You can create a virtual environment and install the packages listed in requirements.txt using the following commands:
-
 
 python -m venv env <br>
 source env/bin/activate <br>
@@ -24,7 +23,10 @@ Larger dataset: https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri
 Smaller dataset: https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection
 
 # Results
-The results of the final model can be found in the results folder. The accuracy.png and loss.png files show the accuracy and loss of the model over the training epochs, and the confusion_matrix.png file shows the confusion matrix of the model's predictions.
+The resulst for this project can be found in the varying folders:
+<li> The resolution testing can be found in preprocessing/res_testing
+<li> The model structure can be found in the model_creation folder.
+<li> Hyperparameter optimisation results can be found in the hyperparameter_testing folder
 
 # Credits
 This project was developed by James Fryer as part of MSc Data Science at University of London.

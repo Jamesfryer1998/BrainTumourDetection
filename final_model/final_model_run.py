@@ -32,5 +32,5 @@ def smaller_dataset_model():
     small_model.build_model(conv_1_2, con_3_4, dense, 100, save_results=False)
 
 
-# larger_dataset_model()
+larger_dataset_model()
 smaller_dataset_model()

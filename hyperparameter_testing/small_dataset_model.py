@@ -236,6 +236,6 @@ class TestSmallDataset:
                     json.dump(data, outfile, indent=3)
                     print('updated file')
 
-small = TestSmallDataset('/Users/james/MScCode/Final Project/Datasets_cleaned/240_resolution/brain_tumour_small')
-small.process_data()
-small.build_model(32, 64, 512, 100, save_results=False, visualise_predictions=True, evaluation_vis=True)
+# small = TestSmallDataset('/Users/james/MScCode/Final Project/Datasets_cleaned/240_resolution/brain_tumour_small')
+# small.process_data()
+# small.build_model(32, 64, 512, 100, save_results=False, visualise_predictions=True, evaluation_vis=True)

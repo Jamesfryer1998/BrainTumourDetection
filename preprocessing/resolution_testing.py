@@ -31,9 +31,3 @@ def preprocess_resolutions_testing():
 
     t2 = datetime.datetime.now()
     print(t2-t1)
-
-
-# TODO:
-# - Ready to run, will process no/yes images in brain_tumour_small dataset
-# - Wills save files with different resolutions in relavent resolutions directories
-# - Once completed, run a method for each of the resolutions and comapre results

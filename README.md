@@ -9,12 +9,23 @@ source env/bin/activate <br>
 pip install -r requirements.txt <br>
 
 # Usage
+
+## Final Model
 To run the final model, navigate to the final_model folder and run the following command:
 
 cd final_model <br>
 python final_model_run.py
 
 This will train the CNN on the larger and small dataset with the optimial hyperparameters and display the results.
+
+## Hyperparameter optimisation
+In order to run the hyperparmeter optimiation grid search for your model, follow these instructions:
+
+1. Ensure your dataset has been properly pre-processed and tested within the hyper_model.py file <br>
+2. Use the existing search space or create your own within the hyper_main.py file <br> 
+3. Uncomment the configure_combinations() and hyperparameter_optimisation() <br>
+4. Run the file or use 'python hyper_main.py' in the terminal <br>
+5. WARNING: With the current search space this process is likely to take a matter of days, plan accordingly. <br>
 
 # Datasets
 The datasets used in this project are not included in this repository due to their large size. However, they can be downloaded from the following sources:

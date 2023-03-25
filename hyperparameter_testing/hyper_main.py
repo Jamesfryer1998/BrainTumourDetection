@@ -48,8 +48,3 @@ def hyperparameter_optimisation():
 
 # Run this to conduct hyperparameter optimisation
 # hyperparameter_optimisation()
-
-conv_1_2, con_3_4, dense, epoch = evaluate_hyperparameter_optimisation(print_results=True)
-
-# This model is based off the optimial parameters found from the results_evaluation of the hyperparameter optimisation
-model_creation.build_model(conv_1_2, con_3_4, dense, epoch, save_results=False)

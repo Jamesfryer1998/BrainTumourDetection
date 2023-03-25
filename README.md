@@ -4,9 +4,13 @@ This repository contains code for detecting brain tumours in MRI scans using con
 # Requirements
 To run the code in this repository, you will need to set up a Python environment with the necessary packages installed. You can create a virtual environment and install the packages listed in requirements.txt using the following commands:
 
+## Using pip and venv
 python -m venv env <br>
 source env/bin/activate <br>
 pip install -r requirements.txt <br>
+
+## Using Conda
+conda create --name <env_name> --file requirements.txt
 
 # Usage
 

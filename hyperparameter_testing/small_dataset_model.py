@@ -129,14 +129,15 @@ class TestSmallDataset:
 
         # Classification
         y_pred = model.predict(self.X_test)
-        # y_scores = np.argmax(y_pred,axis=1)
         cm = confusion_matrix(y_pred.argmax(axis=1), self.y_test.argmax(axis=1))
 
         accuracy = accuracy_score(y_pred.argmax(axis=1), self.y_test.argmax(axis=1))
         auc = roc_auc_score(self.y_test, y_pred)
+
+        # Printing stats
         print(classification_report(y_pred.argmax(axis=1), self.y_test.argmax(axis=1)))
         print(f'Accuracy of model: {accuracy}')
-        print(auc)
+        print(f'AUC of model: {auc}')
 
         if evaluation_vis == True:
             plt.figure(figsize = (10,7))
@@ -147,7 +148,6 @@ class TestSmallDataset:
             print(f'TTR: {t2-t1}')
 
             from sklearn.metrics import roc_curve, auc
-            # import matplotlib.pyplot as plt
 
             # Plotting ROC Curves per class
             # y_true contains the true class labels, y_score contains the predicted probabilities or scores
@@ -170,8 +170,6 @@ class TestSmallDataset:
             plt.title('Receiver operating characteristic for multi-class')
             plt.legend(loc="lower right")
             plt.show()
-
-        # import random
 
         if visualise_predictions:
             # Create a 4x4 subplot
@@ -235,7 +233,3 @@ class TestSmallDataset:
                 with open("hyperparameter_testing/final_model_testing.json", "w") as outfile:
                     json.dump(data, outfile, indent=3)
                     print('updated file')
-
-# small = TestSmallDataset('/Users/james/MScCode/Final Project/Datasets_cleaned/240_resolution/brain_tumour_small')
-# small.process_data()
-# small.build_model(32, 64, 512, 100, save_results=False, visualise_predictions=True, evaluation_vis=True)

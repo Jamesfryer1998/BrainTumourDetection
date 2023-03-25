@@ -81,7 +81,6 @@ class MultiClassModelCreation:
         # Shuffling
         X_train_full, y_train_full = shuffle(X_train, y_train, random_state=42)
         self.X_test, y_test = shuffle(X_test, y_test, random_state=42)
-        # random.shuffle(self.test_paths)
         
         # One-hot encoding y labels
         y_train_full = tf.keras.utils.to_categorical([labels.index(i) for i in y_train_full])
@@ -151,14 +150,14 @@ class MultiClassModelCreation:
 
         # Classification
         y_pred = model.predict(self.X_test)
-        # y_scores = np.argmax(y_pred,axis=1)
         cm = confusion_matrix(y_pred.argmax(axis=1), self.y_test.argmax(axis=1))
         accuracy = accuracy_score(y_pred.argmax(axis=1), self.y_test.argmax(axis=1))
         auc = roc_auc_score(self.y_test, y_pred)
 
+        # Printing stats
         print(classification_report(y_pred.argmax(axis=1), self.y_test.argmax(axis=1)))
-        print(accuracy)
-        print(auc)
+        print(f'Accuracy of model: {accuracy}')
+        print(f'AUC of model: {auc}')
 
         if grouped_classification == True:
             grouped_actual = [0 if test in [0,2,3] else 1 for test in self.y_test.argmax(axis=1)]

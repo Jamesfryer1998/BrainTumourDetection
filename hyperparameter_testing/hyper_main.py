@@ -5,7 +5,7 @@ sys.path.append('/Users/james/MScCode/Final Project/')
 from preprocessing.emailer import email
 from results_evaluation import evaluate_hyperparameter_optimisation
 
-root_path = '/Users/james/MScCode/Final Project/Datasets_cleaned/240_resolution/brain_tumour_large'
+root_path = 'Datasets_cleaned/240_resolution/brain_tumour_large'
 
 # Initialising model
 model_creation = MultiClassModelCreation(root_path)

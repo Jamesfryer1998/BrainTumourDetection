@@ -7,7 +7,7 @@ from hyperparameter_testing.results_evaluation import evaluate_hyperparameter_op
 conv_1_2, con_3_4, dense, epoch = evaluate_hyperparameter_optimisation(print_results=True)
 
 def larger_dataset_model():
-    root_path = '/Users/james/MScCode/Final Project/Datasets_cleaned/240_resolution/brain_tumour_large'
+    root_path = 'Datasets_cleaned/240_resolution/brain_tumour_large'
 
     # Initialising model
     large_model = MultiClassModelCreation(root_path)
@@ -20,7 +20,7 @@ def larger_dataset_model():
 
 def smaller_dataset_model():
 
-    root_path = '/Users/james/MScCode/Final Project/Datasets_cleaned/240_resolution/brain_tumour_small'
+    root_path = 'Datasets_cleaned/240_resolution/brain_tumour_small'
 
     # Initialising model
     small_model = TestSmallDataset(root_path)

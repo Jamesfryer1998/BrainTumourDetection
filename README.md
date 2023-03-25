@@ -28,7 +28,7 @@ In order to run the hyperparmeter optimiation grid search for your model, follow
 5. WARNING: With the current search space this process is likely to take a matter of days, plan accordingly. <br>
 
 # Datasets
-The datasets used in this project are not included in this repository due to their large size. However, they can be downloaded from the following sources:
+The datasets used in this project can be downloaded from the following sources, or the pre-processed datasets can be found in the Datasets_cleaned directory:
 
 Larger dataset: https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset?select=Testing
 Smaller dataset: https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection

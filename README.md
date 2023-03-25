@@ -14,7 +14,7 @@ To run the final model, navigate to the final_model folder and run the following
 cd final_model <br>
 python final_model_run.py
 
-This will train the CNN on the larger and small dataset wiht the optimial hyperparameters and display the results.
+This will train the CNN on the larger and small dataset with the optimial hyperparameters and display the results.
 
 # Datasets
 The datasets used in this project are not included in this repository due to their large size. However, they can be downloaded from the following sources:
@@ -29,6 +29,6 @@ The resulst for this project can be found in the varying folders:
 <li> Hyperparameter optimisation results can be found in the hyperparameter_testing folder
 
 # Credits
-This project was developed by James Fryer as part of MSc Data Science at University of London.
+This project was developed by James Fryer as part of the Final Project for MSc Data Science at University of London.
 
 Please feel free to use this code and results within your research.
